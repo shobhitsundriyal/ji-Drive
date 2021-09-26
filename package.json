@@ -15,8 +15,8 @@
 		"web-vitals": "^1.1.2"
 	},
 	"scripts": {
-		"start": "craco start",
-		"build": "craco build",
+		"start": "cross-env TAILWIND_MODE=watch craco start ",
+		"build": "craco build postcss -i tailwind.css -o build.css",
 		"test": "craco test",
 		"eject": "react-scripts eject"
 	},
@@ -40,6 +40,9 @@
 	},
 	"devDependencies": {
 		"autoprefixer": "^9.8.6",
+		"chokidar-cli": "^3.0.0",
+		"concurrently": "^6.2.1",
+		"cross-env": "^7.0.3",
 		"postcss": "^7.0.38",
 		"tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.14"
 	}
