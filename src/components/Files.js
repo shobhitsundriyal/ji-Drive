@@ -6,15 +6,16 @@ function Files(props) {
 	const { filename, fileUrl, size, timestamp, owner } = props.file.data
 
 	function getSize(size) {
-		if (size < 1000) {
+		var divisor = 1024
+		if (size < divisor) {
 			//if size in bytes
 			return size.toString() + ' B'
 		}
 		var finalSize = size
 		var sizeStr = 'v'
 		for (var i = 0; i < 3; i++) {
-			finalSize = finalSize / 1000
-			if (finalSize < 1000) {
+			finalSize = finalSize / divisor
+			if (finalSize < divisor) {
 				break
 			}
 		}
@@ -35,21 +36,22 @@ function Files(props) {
 
 	return (
 		<div className='filesContainer hover:bg-gray-50 cursor-pointer'>
-			<div className=' flex h-11 ml-2 pt-2 items-center justify-between'>
+			<div className=' flex h-11 ml-2 pt-2 items-center justify-between '>
 				<div className='flex h-full'>
 					<ClipboardIcon className='h-5' />
 					<a
 						href={fileUrl}
-						className='file_text ml-2 hover:text-blue-600 max-w-[200px] overflow-auto scrollbar-hide flex'
+						target='_top'
+						className='file_text ml-2 hover:text-blue-600 max-w-[200px] overflow-auto scrollbar-hide flex min-w-[200px]'
 					>
 						{filename}
 					</a>
 				</div>
-				<div className=' '>{owner}</div>
-				<div className=' '>
+				<div className='text-left '>{owner}</div>
+				<div className=' text-right'>
 					{moment(timestamp?.toDate()).format('DD/MM/YY')}
 				</div>
-				<div className='pr-5'>{getSize(size)}</div>
+				<div className='pr-5 text-right w-[100px]'>{getSize(size)}</div>
 			</div>
 			<hr className='mx-2' />
 		</div>

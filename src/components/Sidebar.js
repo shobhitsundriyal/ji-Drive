@@ -22,7 +22,7 @@ function reducer(state, action) {
 	}
 }  Reducer tesing*/
 
-function Sidebar() {
+function Sidebar({ owner }) {
 	//const [state, dispatch] = useReducer(reducer, { dispaly: 'My Drive' }) Reducer testing
 
 	const barSize = ((2 / 3) * 100).toString() + '%'
@@ -64,7 +64,7 @@ function Sidebar() {
 							filename: file.name,
 							fileUrl: url,
 							size: snapshot.bytesTransferred,
-							owner: 'No one',
+							owner: owner,
 						})
 						{
 							/**add total storage used from new collection */

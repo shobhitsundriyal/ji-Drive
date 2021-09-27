@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { db } from '../firebase'
 import Files from './Files'
-import FilesHeader from './FilesHeader'
-import Infoheader from './Infoheader'
 
 function Data() {
 	const [files, setFiles] = useState([])

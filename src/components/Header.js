@@ -1,11 +1,13 @@
 import React from 'react'
 import { SearchIcon } from '@heroicons/react/solid'
-import { ArchiveIcon } from '@heroicons/react/solid'
 
-function Header() {
+function Header({ fname, photoUrl }) {
 	function focus() {
 		document.getElementById('search_ip').focus()
 	}
+	const defPhoto =
+		'https://www.seekpng.com/png/full/115-1150053_avatar-png-transparent-png-royalty-free-default-user.png'
+	const dispPhotoUrl = photoUrl ? photoUrl : defPhoto
 	return (
 		<div className='header flex space-x-9 mt-3 p-5 pt-2 border border-t-0 border-d-2 border-gray-300 '>
 			<div
@@ -36,12 +38,12 @@ function Header() {
 
 			<div className=' text-3xl font-light hover: cursor-pointer ri flex items-center'>
 				<span className='text-base text-gray-900 hover:underline pr-2'>
-					*f_name*
+					{fname}
 				</span>
 				<img
-					src='https://www.seekpng.com/png/full/115-1150053_avatar-png-transparent-png-royalty-free-default-user.png'
+					src={dispPhotoUrl}
 					alt='pic'
-					className='text-sm h-5 rounded-full'
+					className='text-sm h-7 rounded-full'
 				/>
 			</div>
 		</div>
