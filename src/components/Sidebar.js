@@ -8,6 +8,8 @@ import {
 	PlusIcon,
 } from '@heroicons/react/outline'
 import { Modal } from '@material-ui/core'
+import { storage, db } from '../firebase'
+import firebase from 'firebase/compat/app'
 /*import { useReducer } from 'react'
 
 function reducer(state, action) {
@@ -29,11 +31,51 @@ function Sidebar() {
 	}
 
 	function active_option(id) {
+		//dumb function
 		document.getElementById(id).click()
 	}
 
 	//Modal
-	const [open, setOpen] = useState(true)
+	const [open, setOpen] = useState(false)
+	const [uploading, setUploading] = useState(false)
+	const [file, setFile] = useState(null)
+
+	function handleChange(e) {
+		if (e.target.files[0]) {
+			setFile(e.target.files[0])
+		}
+	}
+
+	const handleUpload = (e) => {
+		e.preventDefault()
+		setUploading(true)
+		storage
+			.ref(`Files/${file.name}`)
+			.put(file)
+			.then((snapshot) => {
+				storage
+					.ref('Files/')
+					.child(file.name)
+					.getDownloadURL()
+					.then((url) => {
+						db.collection('myfiles').add({
+							timestamp:
+								firebase.firestore.FieldValue.serverTimestamp(),
+							filename: file.name,
+							fileUrl: url,
+							size: snapshot.bytesTransferred,
+							owner: 'No one',
+						})
+						{
+							/**add total storage used from new collection */
+						}
+					})
+				//setting when snapshot recivecd, if done out of this block modal will close intstantly
+				setUploading(false)
+				setOpen(false)
+				setFile(null)
+			})
+	}
 
 	return (
 		<>
@@ -44,11 +86,22 @@ function Sidebar() {
 							Select file to upload
 						</div>
 						<div className='modal_body flex flex-col'>
-							<input type='file' className='bg-gray-200 mb-5' />
-							<input
-								type='submit'
-								className='post_submit options w-min bg-blue-700 text-white'
-							/>
+							{uploading ? (
+								<p className='text-2xl m-5'>Uploading...</p>
+							) : (
+								<>
+									<input
+										type='file'
+										className='bg-gray-200 mb-5'
+										onChange={handleChange}
+									/>
+									<input
+										type='submit'
+										className='post_submit options w-min bg-blue-700 text-white'
+										onClick={handleUpload}
+									/>
+								</>
+							)}
 						</div>
 					</form>
 				</div>
